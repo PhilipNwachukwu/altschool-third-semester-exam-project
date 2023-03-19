@@ -36,7 +36,7 @@ pipeline {
                 script {
                     dir('sock-shop') {
                         sh "kubectl apply -f namespace-sockshop.yaml"
-                        sh ".sock-shop/deploy-sockshop-aws-eks.sh"
+                        sh "./sock-shop/deploy-sockshop-aws-eks.sh"
                     }
                 }
             }
