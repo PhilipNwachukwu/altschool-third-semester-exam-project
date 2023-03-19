@@ -1,5 +1,6 @@
 #!bin/bash
-read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd
+fqdnOfSockShopFrontEnd="sockshop.philipnwachukwu.ml"
+read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$fqdnOfSockShopFrontEnd"
 cd $HOME/eks-anywhere/sock-shop/
 cp ./sslcert.conf.sample ./sslcert.conf
 sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf

@@ -31,16 +31,16 @@ pipeline {
             }
         }
 
-    //     stage("Deploy Sock Shop to EKS") {
-    //         steps {
-    //             script {
-    //                 dir('sock-shop') {
-    //                     sh "kubectl apply -f namespace-sockshop.yaml"
-    //                     sh "deploy-sockshop-aws-eks.sh"
-    //                 }
-    //             }
-    //         }
-    //     }
+        stage("Deploy Sock Shop to EKS") {
+            steps {
+                script {
+                    dir('sock-shop') {
+                        sh "kubectl apply -f namespace-sockshop.yaml"
+                        sh "deploy-sockshop-aws-eks.sh"
+                    }
+                }
+            }
+        }
 
     //     stage("Deploy monitoring and alerting to EKS") {
     //         steps {
