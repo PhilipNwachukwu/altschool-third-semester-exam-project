@@ -2,13 +2,13 @@ variable "aws_amis" {
   description = "The AMI to use for setting up the instances."
   default = {
     # Ubuntu Xenial 16.04 LTS
-    "eu-west-1" = "ami-58b7972b"
-    "eu-west-2" = "ami-ede2e889"
+    "eu-west-1"    = "ami-58b7972b"
+    "eu-west-2"    = "ami-ede2e889"
     "eu-central-1" = "ami-1535f57a"
-    "us-east-1" = "ami-bcd7c3ab"
-    "us-east-2" = "ami-fcc19b99"
-    "us-west-1" = "ami-ed50018d"
-    "us-west-2" = "ami-15d76075"
+    "us-east-1"    = "ami-bcd7c3ab"
+    "us-east-2"    = "ami-fcc19b99"
+    "us-west-1"    = "ami-ed50018d"
+    "us-west-2"    = "ami-15d76075"
   }
 }
 
@@ -16,7 +16,7 @@ data "aws_availability_zones" "available" {}
 
 variable "aws_region" {
   description = "The AWS region to create things in."
-  default     = "eu-central-1"
+  default     = "eu-west-2"
 }
 
 variable "instance_user" {
