@@ -43,7 +43,7 @@ pipeline {
         }
         stage("Deploy Sock Shop to EKS") {
             steps {
-                        sh "altschool-third-semester-exam-project/sock-shop/deploy-sockshop-aws-eks.sh"
+                        sh "./sock-shop/deploy-sockshop-aws-eks.sh"
                     }
                 }
 
