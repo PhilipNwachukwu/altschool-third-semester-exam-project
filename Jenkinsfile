@@ -56,7 +56,7 @@ pipeline {
                         sh "openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout tls.key -out tls.crt -config sslcert.conf -extensions 'v3_req'"
                         // kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
-                        sh 'kubectl apply secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
+                        sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
                         sh 'kubectl apply -f sockshop-tls.yaml'
 //                         sh 'kubectl delete -f sockshop-tls'
                         sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
