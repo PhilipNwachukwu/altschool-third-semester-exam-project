@@ -53,7 +53,7 @@ pipeline {
                         sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf'
                         sh 'cp ./ingress-sockshop.yaml.sample ./ingress-sockshop.yaml'
                         sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./ingress-sockshop.yaml'
-                        sh 'openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout tls.key -out tls.crt -config sslcert.conf -extensions 'v3_req''
+                        sh "openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout tls.key -out tls.crt -config sslcert.conf -extensions 'v3_req'"
                         sh 'sleep 3'
                         // kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
