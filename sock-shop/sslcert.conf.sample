@@ -4,14 +4,14 @@ x509_extensions = v3_req
 prompt = no
 [req_distinguished_name]
 C = NG
-ST = LOS
+ST = Lagos
 L = Lagos
 O = stack
 OU = devops
-CN = fqdnOfSockShopFrontEnd
+CN = sockshop.philipnwachukwu.ml
 [v3_req]
 keyUsage = digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = fqdnOfSockShopFrontEnd
+DNS.1 = sockshop.philipnwachukwu.ml
