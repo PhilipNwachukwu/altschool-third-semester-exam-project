@@ -58,6 +58,7 @@ pipeline {
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
                         sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
                         sh 'kubectl create -f sockshop-tls.yaml'
+                        sh 'sleep 3'
                         sh 'kubectl create -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
                         sh 'kubectl create -f ./ingress-controllers/nginx-ingress-class.yaml'
                         // sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
