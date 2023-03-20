@@ -57,15 +57,16 @@ pipeline {
                         // kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
                         sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
-                        sh 'kubectl create -f sockshop-tls.yaml'
-                        sh 'kubectl create -f /ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
-                        sh 'kubectl create -f /ingress-controllers/nginx-ingress-class.yaml'
+                        sh 'kubectl apply -f sockshop-tls.yaml'
+//                         sh 'kubectl delete -f sockshop-tls'
+                        sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
                         // sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
                         // sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
                         // sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
                         // sh 'kubectl create -f complete-demo-with-persistence-aws.yaml'
-                        sh 'kubectl create -f complete-demo.yaml'
-                        sh 'kubectl create -f ingress-sockshop.yaml'
+                        sh 'kubectl apply -f complete-demo.yaml'
+                        sh 'kubectl apply -f ingress-sockshop.yaml'
                     }
                 }
                         

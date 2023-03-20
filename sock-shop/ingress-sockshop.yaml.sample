@@ -12,10 +12,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - fqdnOfSockShopFrontEnd
+      - sockshop.philipnwachukwu.ml
     secretName: sockshop-tls
   rules:
-    - host: fqdnOfSockShopFrontEnd
+    - host: sockshop.philipnwachukwu.ml
       http:
         paths:
           - path: /
