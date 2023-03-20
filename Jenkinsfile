@@ -5,6 +5,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "eu-west-2"
+        SockShopFrontEnd = "sockshop.philipnwachukwu.ml"
     }
     stages {
         stage("Create an EKS Cluster") {
@@ -45,7 +46,27 @@ pipeline {
             steps {
                 script{
                     dir('sock-shop') {
-                        sh 'bash ./deploy-sockshop-aws-eks.sh'
+                        // sh 'bash ./deploy-sockshop-aws-eks.sh'
+                        sh 'read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"'
+                        // sh 'cd $HOME/workspace/Sock-Shop-deployment-pipeline/sock-shop/'
+                        sh 'cp ./sslcert.conf.sample ./sslcert.conf'
+                        sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf'
+                        sh 'cp ./ingress-sockshop.yaml.sample ./ingress-sockshop.yaml'
+                        sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./ingress-sockshop.yaml'
+                        sh 'openssl req -x509 -nodes -days 730 -newkey rsa:2048 -keyout tls.key -out tls.crt -config sslcert.conf -extensions 'v3_req''
+                        sh 'sleep 3'
+                        // kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt
+                        // Converting secret creation to YAML for supporting ArgoCD/GitOps
+                        sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
+                        sh 'kubectl create -f sockshop-tls.yaml'
+                        sh 'kubectl create -f /ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
+                        sh 'kubectl create -f /ingress-controllers/nginx-ingress-class.yaml'
+                        // sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
+                        // sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
+                        // sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
+                        // sh 'kubectl create -f complete-demo-with-persistence-aws.yaml'
+                        sh 'kubectl create -f complete-demo.yaml'
+                        sh 'kubectl create -f ingress-sockshop.yaml'
                     }
                 }
                         
