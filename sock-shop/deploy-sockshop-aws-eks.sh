@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 fqdnOfSockShopFrontEnd="sockshop.philipnwachukwu.ml"
 read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$fqdnOfSockShopFrontEnd"
 cd $HOME/eks-anywhere/sock-shop/

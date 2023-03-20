@@ -43,9 +43,14 @@ pipeline {
         }
         stage("Deploy Sock Shop to EKS") {
             steps {
-                        sh '''./sock-shop/deploy-sockshop-aws-eks.sh'''
+                script{
+                    dir('sock-shop') {
+                        sh 'bash ./deploy-sockshop-aws-eks.sh'
                     }
                 }
+                        
+            }
+        }
 
     //     stage("Deploy monitoring and alerting to EKS") {
     //         steps {
