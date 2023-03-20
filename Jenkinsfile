@@ -47,7 +47,7 @@ pipeline {
                 script{
                     dir('sock-shop') {
                         // sh 'bash ./deploy-sockshop-aws-eks.sh'
-                        sh 'read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"'
+                        sh 'read -p 'fqdnOfSockShopFrontEnd ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"'
                         // sh 'cd $HOME/workspace/Sock-Shop-deployment-pipeline/sock-shop/'
                         sh 'cp ./sslcert.conf.sample ./sslcert.conf'
                         sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf'
