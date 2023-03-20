@@ -1,6 +1,6 @@
 #!/bin/bash
-SockShopFrontEnd="sockshop.philipnwachukwu.ml"
-read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"
+# SockShopFrontEnd="sockshop.philipnwachukwu.ml"
+# read -p 'fqdnOfSockShopFrontEnd: ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"
 # cd $HOME/workspace/Sock-Shop-deployment-pipeline/sock-shop/
 # cp ./sslcert.conf.sample ./sslcert.conf
 # sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf

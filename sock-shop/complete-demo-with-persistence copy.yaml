@@ -12,7 +12,7 @@ metadata:
   name: session-db
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -75,6 +75,8 @@ spec:
             items:
             - key: redis-config
               path: redis.conf
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -97,7 +99,7 @@ metadata:
   name: carts-db
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -154,6 +156,9 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+
 ---
 apiVersion: v1
 kind: Service
@@ -213,6 +218,8 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -235,7 +242,7 @@ metadata:
   name: catalogue-db
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -280,6 +287,8 @@ spec:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: catalogue-db
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -327,6 +336,8 @@ spec:
             add:
               - NET_BIND_SERVICE
           readOnlyRootFilesystem: true
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -377,6 +388,8 @@ spec:
             drop:
               - all
           readOnlyRootFilesystem: true
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -399,7 +412,7 @@ metadata:
   name: orders-db
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -446,6 +459,8 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -505,6 +520,8 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -552,6 +569,8 @@ spec:
             add:
               - NET_BIND_SERVICE
           readOnlyRootFilesystem: true
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -590,6 +609,8 @@ spec:
         image: weaveworksdemos/queue-master:0.3.1
         ports:
         - containerPort: 80
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -614,7 +635,7 @@ metadata:
   name: rabbitmq
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -652,6 +673,8 @@ spec:
         - name: rabbitmq-data
           persistentVolumeClaim:
             claimName: rabbitmq
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -711,6 +734,8 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -733,7 +758,7 @@ metadata:
   name: user-db
   namespace: sock-shop
   annotations:
-    volume.beta.kubernetes.io/storage-class: "powerstore-ext4"
+    storageclass.kubernetes.io/is-default-class: "true"
 spec:
   accessModes:
     - ReadWriteOnce
@@ -780,6 +805,8 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
@@ -830,6 +857,8 @@ spec:
             add:
               - NET_BIND_SERVICE
           readOnlyRootFilesystem: true
+      nodeSelector:
+        beta.kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service

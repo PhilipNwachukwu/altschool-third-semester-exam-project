@@ -23,31 +23,22 @@ pipeline {
             steps {
                 script {
                     dir('kubernetes') {
-                        sh "aws eks update-kubeconfig --name altschoolapp-eks-cluster"
-                        // sh "kubectl apply -f namespace-nginx.yaml"
-                        // sh "kubectl apply -f nginx-deployment.yaml"
-                        // sh "kubectl apply -f nginx-service.yaml"
+                        sh "aws eks update-kubeconfig --name altschlapp-eks-cluster"
+                        sh "kubectl apply -f namespace-nginx.yaml"
+                        sh "kubectl apply -f nginx-deployment.yaml"
+                        sh "kubectl apply -f nginx-service.yaml"
                     }
                 }
             }
         }
 
-        stage("Create sockshop namespace") {
-            steps {
-                script {
-                    dir('sock-shop') {
-                        sh "kubectl apply -f namespace-sockshop.yaml"
-                    }
-                }
-            }
-
-        }
         stage("Deploy Sock Shop to EKS") {
             steps {
                 script{
                     dir('sock-shop') {
-                        sh 'bash ./deploy-sockshop-aws-eks.sh'
-//                         sh 'read -p 'fqdnOfSockShopFrontEnd ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"'
+                        sh "kubectl apply -f namespace-sockshop.yaml"
+                        // sh 'bash ./deploy-sockshop-aws-eks.sh'
+                        // sh 'read -p 'fqdnOfSockShopFrontEnd ' fqdnOfSockShopFrontEnd <<< "$SockShopFrontEnd"'
                         // sh 'cd $HOME/workspace/Sock-Shop-deployment-pipeline/sock-shop/'
                         sh 'cp ./sslcert.conf.sample ./sslcert.conf'
                         sh 'sed -i "s/fqdnOfSockShopFrontEnd/$fqdnOfSockShopFrontEnd/g" ./sslcert.conf'
@@ -58,14 +49,13 @@ pipeline {
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
                         sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
                         sh 'kubectl apply -f sockshop-tls.yaml'
-//                         sh 'kubectl delete -f sockshop-tls'
                         sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
                         sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
-                        // sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
-                        // sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
-                        // sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
-                        // sh 'kubectl create -f complete-demo-with-persistence-aws.yaml'
-                        sh 'kubectl apply -f complete-demo.yaml'
+                        sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
+                        sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
+                        sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
+                        sh 'kubectl apply -f complete-demo-with-persistence-aws.yaml'
+                        // sh 'kubectl apply -f complete-demo.yaml'
                         sh 'kubectl apply -f ingress-sockshop.yaml'
                     }
                 }
