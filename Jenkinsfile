@@ -26,8 +26,8 @@ pipeline {
                         sh "aws eks update-kubeconfig --name altschlapp-eks-vKA47jLq"
                         // sh 'kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"'
                         sh 'kubectl apply -f ebs-sc.yaml'
-                        sh 'kubectl annotate storageclass gp2 storageclass.kubernetes.io/is-default-class=false'
-                        sh 'kubectl annotate storageclass ebs-sc storageclass.kubernetes.io/is-default-class=true'
+                        sh 'kubectl annotate storageclass gp2 --overwrite true storageclass.kubernetes.io/is-default-class=false'
+                        sh 'kubectl annotate storageclass ebs-sc --overwrite true storageclass.kubernetes.io/is-default-class=true'
                     }
                 }
             }
