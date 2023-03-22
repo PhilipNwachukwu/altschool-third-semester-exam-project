@@ -19,11 +19,24 @@ pipeline {
             }
         }
 
+        stage("Deploy Storageclass") {
+            steps {
+                script {
+                    dir('eks-sc') {
+                        sh "aws eks update-kubeconfig --name altschlapp-eks-vKA47jLq"
+                        // sh 'kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"'
+                        sh 'kubectl apply -f ebs-sc.yaml'
+                        sh 'kubectl patch storageclass gp2 -p "{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"false\"}}}"'
+                        sh 'kubectl patch storageclass ebs-sc -p "{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}"'
+                    }
+                }
+            }
+        }
+
         stage("Deploy to EKS-Cluster") {
             steps {
                 script {
                     dir('kubernetes') {
-                        sh "aws eks update-kubeconfig --name altschlapp-eks-vKA47jLq"
                         sh "kubectl apply -f namespace-nginx.yaml"
                         sh "kubectl apply -f nginx-deployment.yaml"
                         sh "kubectl apply -f nginx-service.yaml"
