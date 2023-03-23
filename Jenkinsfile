@@ -28,8 +28,8 @@ pipeline {
                         sh 'kubectl apply -f ebs-sc.yaml'
                         // sh 'kubectl annotate storageclass gp2 --overwrite true storageclass.kubernetes.io/is-default-class=false'
                         // sh 'kubectl annotate storageclass ebs-sc --overwrite true storageclass.ebs.csi.aws.com/is-default-class=true'
-                        sh 'kubectl patch storageclass ebs-sc -p "{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}"'
-                    }
+                        sh "kubectl patch storageclass ebs-sc -p '{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"true\"}}}'"                
+                    }  
                 }
             }
         }
