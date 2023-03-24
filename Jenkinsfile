@@ -70,7 +70,7 @@ pipeline {
                         sh 'kubectl apply -f ./ingress-controllers/services.yaml'
                         sh 'kubectl apply -f ./ingress-controllers/deployment.yaml'
                         // sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
-                        // sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
                         sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
                         sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
                         sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
