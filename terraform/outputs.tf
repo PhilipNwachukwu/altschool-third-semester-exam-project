@@ -20,3 +20,7 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = module.eks.cluster_name
 }
+
+output "name_servers" {
+  value = aws_route53_record.ns.records
+}

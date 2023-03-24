@@ -62,14 +62,21 @@ pipeline {
                         // Converting secret creation to YAML for supporting ArgoCD/GitOps
                         sh 'kubectl create secret tls sockshop-tls -n sock-shop --key tls.key --cert tls.crt --dry-run=client --output=yaml > sockshop-tls.yaml'
                         sh 'kubectl apply -f sockshop-tls.yaml'
-                        sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
-                        sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/admission-service-account.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/validating-webhook.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/jobs.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/ingress-service-account.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/configmap.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/services.yaml'
+                        sh 'kubectl apply -f ./ingress-controllers/deployment.yaml'
+                        // sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-controller-eks-nlb.yaml'
+                        // sh 'kubectl apply -f ./ingress-controllers/nginx-ingress-class.yaml'
                         sh 'cp complete-demo-with-persistence.yaml complete-demo-with-persistence-aws.yaml'
                         sh "sed -i 's/powerstore-ext4/ebs-sc/g' complete-demo-with-persistence-aws.yaml"
                         sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
                         sh 'kubectl apply -f complete-demo-with-persistence-aws.yaml'
                         // sh 'kubectl apply -f complete-demo.yaml'
-                        sh 'kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission'
+                        // sh 'kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission'
                         sh 'kubectl apply -f ingress-sockshop.yaml'
                     }
                 }
