@@ -88,10 +88,10 @@ pipeline {
     //         steps {
     //             script {
     //                 dir('deploy/kubernetes') {
-    //                     sh "kubectl apply -f manifests-monitoring/namespace-monitoring.yaml"
-    //                     sh "kubectl apply -f manifests-monitoring/prometheus-grafana.yaml"
-    //                     sh "kubectl apply -f manifests-alerting/alertmanager.yaml"
-    //                     sh "kubectl apply -f manifests-logging/kibana.yaml"
+                        sh "kubectl apply -f manifests-monitoring/namespace-monitoring.yaml"
+                        sh "kubectl apply -f manifests-monitoring/prometheus-grafana.yaml"
+                        sh "kubectl apply -f manifests-alerting/alertmanager.yaml"
+                        sh "kubectl apply -f manifests-logging/kibana.yaml"
     //                     sh "kubectl port-forward --address 0.0.0.0 -n prometheus deploy/prometheus-server 8001:9090"
     //                     sh "kubectl port-forward --address 0.0.0.0 -n grafana deploy/grafana 8001:3000"
     //                 }

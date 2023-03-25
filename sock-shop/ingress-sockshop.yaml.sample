@@ -22,3 +22,10 @@ spec:
                 name: front-end
                 port:
                   number: 80
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: fineract
+                port:
+                  number: 80    
