@@ -565,7 +565,6 @@ spec:
     rollingUpdate:
       maxUnavailable: 10%
     type: RollingUpdate
-
 ---
 apiVersion: batch/v1
 kind: Job
