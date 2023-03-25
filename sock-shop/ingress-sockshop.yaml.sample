@@ -22,7 +22,7 @@ spec:
                 name: front-end
                 port:
                   number: 80
-          - path: /app
+          - path: /fineract
             pathType: Prefix
             backend:
               service:
