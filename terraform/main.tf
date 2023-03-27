@@ -95,6 +95,13 @@ module "eks" {
   }
 }
 
+resource "null_resource" "kubectl" {
+  depends_on = [module.eks]
+  provisioner "local-exec" {
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
+  }
+}
+
 
 # https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/ 
 data "aws_iam_policy" "ebs_csi_policy" {

@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     dir('eks-sc') {
-                        sh "aws eks update-kubeconfig --name altschlapp-eks-DW4YD9cA"
+                        // sh "aws eks update-kubeconfig --name altschlapp-eks-aerJO6YM"
                         // sh 'kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"'
                         sh 'kubectl apply -f ebs-sc.yaml'
                         sh "kubectl patch storageclass gp2 -p '{\"metadata\": {\"annotations\":{\"storageclass.kubernetes.io/is-default-class\":\"false\"}}}'"
