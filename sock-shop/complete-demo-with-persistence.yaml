@@ -393,62 +393,62 @@ spec:
   selector:
     name: front-end
 
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fineract
-  namespace: portfolio
-spec:
-  selector:
-    matchLabels:
-      name: fineract
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        name: fineract
-    spec:
-      containers:
-        - name: fineract
-          image: apache/fineract-cn-portfolio:latest
-          resources:
-            requests:
-              cpu: 100m
-              memory: 100Mi
-          ports:
-            - containerPort: 8079
-          env:
-            - name: SESSION_REDIS
-              value: "true"
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 10001
-            capabilities:
-              drop:
-                - all
-            readOnlyRootFilesystem: true
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fineract
-  labels:
-    name: fineract
-  namespace: portfolio
-spec:
-  type: NodePort
-  ports:
-    - name: http
-      port: 80
-      targetPort: 80
-      protocol: TCP
-    - name: https
-      port: 443
-      targetPort: 443
-      protocol: TCP
-  selector:
-    name: fineract
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: fineract
+#   namespace: portfolio
+# spec:
+#   selector:
+#     matchLabels:
+#       name: fineract
+#   replicas: 1
+#   template:
+#     metadata:
+#       labels:
+#         name: fineract
+#     spec:
+#       containers:
+#         - name: fineract
+#           image: apache/fineract-cn-portfolio:latest
+#           resources:
+#             requests:
+#               cpu: 100m
+#               memory: 100Mi
+#           ports:
+#             - containerPort: 8079
+#           env:
+#             - name: SESSION_REDIS
+#               value: "true"
+#           securityContext:
+#             runAsNonRoot: true
+#             runAsUser: 10001
+#             capabilities:
+#               drop:
+#                 - all
+#             readOnlyRootFilesystem: true
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: fineract
+#   labels:
+#     name: fineract
+#   namespace: portfolio
+# spec:
+#   type: NodePort
+#   ports:
+#     - name: http
+#       port: 80
+#       targetPort: 80
+#       protocol: TCP
+#     - name: https
+#       port: 443
+#       targetPort: 443
+#       protocol: TCP
+#   selector:
+#     name: fineract
 
 ---
 kind: PersistentVolumeClaim

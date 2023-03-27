@@ -21,11 +21,4 @@ spec:
               service:
                 name: front-end
                 port:
-                  number: 80
-          - path: /fineract
-            pathType: Prefix
-            backend:
-              service:
-                name: fineract
-                port:
-                  number: 80    
+                  number: 80  
