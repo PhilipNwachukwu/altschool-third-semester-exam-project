@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fineract
+spec:
+  selector:
+    matchLabels:
+      app: fineract
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fineract
+    spec:
+      containers:
+      - name: fineract
+        image: apache/fineract-cn-portfolio:latest
+        ports:
+        - containerPort: 80
