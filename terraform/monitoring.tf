@@ -4,27 +4,40 @@
 #   enabled = true
 # }
 
-resource "kubernetes_namespace" "grafana" {
-  depends_on = [module.eks.cluster_name]
-  count      = (var.enabled && var.create_namespace_grafana && var.namespace_grafana != "kube-system") ? 1 : 0
+resource "null_resource" "merge_kubeconfig" {
+  triggers = {
+    always = timestamp()
+  }
 
+  depends_on = [module.eks]
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
+      set -e
+      aws eks wait cluster-active --name '${local.cluster_name}'
+      aws eks update-kubeconfig --name '${local.cluster_name}' --alias '${local.cluster_name}-${var.region}' --region '${var.region}'
+    EOT
+  }
+}
+
+resource "kubernetes_namespace" "grafana" {
+  depends_on = [module.eks]
   metadata {
     name = var.namespace_grafana
   }
 }
 
 resource "kubernetes_namespace" "prometheus" {
-  depends_on = [module.eks.cluster_name]
-  count      = (var.enabled && var.create_namespace_prometheus && var.namespace_prometheus != "kube-system") ? 1 : 0
-
+  depends_on = [module.eks]
   metadata {
     name = var.namespace_prometheus
   }
 }
 
+
 resource "helm_release" "grafana" {
-  depends_on = [kubernetes_namespace.grafana, ]
-  count      = var.enabled ? 1 : 0
+  depends_on = [kubernetes_namespace.grafana]
   name       = var.helm_chart_grafana_name
   chart      = var.helm_chart_grafana_release_name
   repository = var.helm_chart_grafana_repo
@@ -44,8 +57,7 @@ resource "helm_release" "grafana" {
 }
 
 resource "helm_release" "prometheus" {
-  depends_on = [kubernetes_namespace.prometheus, ]
-  count      = var.enabled ? 1 : 0
+  depends_on = [kubernetes_namespace.prometheus]
   name       = var.helm_chart_prometheus_name
   chart      = var.helm_chart_prometheus_release_name
   repository = var.helm_chart_prometheus_repo
