@@ -88,7 +88,6 @@ pipeline {
             steps {
                 script {
                     dir('deploy/kubernetes/grafana') {
-                        sh "sed -i 's/v1alpha1/v1beta1/' ~/.kube/config"
                         sh "terraform init -upgrade"
                         sh "terraform apply -auto-approve"
                         // sh 'kubectl apply -f manifests-monitoring/namespace-monitoring.yaml'
