@@ -41,7 +41,7 @@ module "vpc" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.5.1"
+  version = "19.11.0"
 
   cluster_name    = local.cluster_name
   cluster_version = "1.24"
@@ -50,20 +50,21 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
+  cluster_addons = {
+    coredns = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+  }
+
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
 
-  }
-
-  node_security_group_additional_rules = {
-    cluster_to_node = {
-      description                   = "Cluster to ingress-nginx webhook"
-      protocol                      = "-1"
-      from_port                     = 8443
-      to_port                       = 8443
-      type                          = "ingress"
-      source_cluster_security_group = true
-    }
   }
 
   eks_managed_node_groups = {
@@ -88,7 +89,20 @@ module "eks" {
     }
 
   }
+
+  node_security_group_additional_rules = {
+    cluster_to_node = {
+      description                   = "Cluster to ingress-nginx webhook"
+      protocol                      = "-1"
+      from_port                     = 8443
+      to_port                       = 8443
+      type                          = "ingress"
+      source_cluster_security_group = true
+    }
+
+  }
 }
+
 
 
 # https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/ 
