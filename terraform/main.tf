@@ -43,8 +43,6 @@ module "vpc" {
   }
 }
 
-
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "19.5.1"
@@ -92,13 +90,7 @@ module "eks" {
       max_size     = 2
       desired_size = 1
     }
-  }
-}
 
-resource "null_resource" "kubectl" {
-  depends_on = [module.eks]
-  provisioner "local-exec" {
-    command = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
   }
 }
 
@@ -130,3 +122,20 @@ resource "aws_eks_addon" "ebs-csi" {
   }
 }
 
+resource "null_resource" "merge_kubeconfig" {
+  triggers = {
+    always = timestamp()
+  }
+
+  depends_on = [module.eks]
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
+      set -e
+      echo 'Applying Auth ConfigMap with kubectl...'
+      aws eks wait cluster-active --name '${local.cluster_name}'
+      aws eks update-kubeconfig --name '${local.cluster_name}' --alias '${local.cluster_name}-${var.region}' --region=${var.region}
+    EOT
+  }
+}
