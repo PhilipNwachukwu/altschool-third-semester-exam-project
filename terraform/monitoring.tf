@@ -1,5 +1,5 @@
-module "grafana_prometheus_monitoring" {
-  source = "git::https://github.com/PhilipNwachukwu/terraform-aws-eks-grafana-prometheus.git"
+# module "grafana_prometheus_monitoring" {
+#   source = "git::https://github.com/PhilipNwachukwu/terraform-aws-eks-grafana-prometheus.git"
 
-  enabled = true
-}
+#   enabled = true
+# }
