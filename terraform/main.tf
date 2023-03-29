@@ -132,6 +132,7 @@ resource "null_resource" "merge_kubeconfig" {
       echo 'Applying Auth ConfigMap with kubectl...'
       aws eks wait cluster-active --name '${local.cluster_name}'
       aws eks update-kubeconfig --name '${local.cluster_name}' --alias '${local.cluster_name}-${var.region}' --region=${var.region}
+      sed -i -e "s,client.authentication.k8s.io/v1alpha1,client.authentication.k8s.io/v1beta1,g" ~/.kube/config
     EOT
   }
 }
