@@ -76,7 +76,7 @@ pipeline {
                         sh "sed -i 's/8Gi/1Gi/g' complete-demo-with-persistence-aws.yaml"
                         sh 'kubectl apply -f complete-demo-with-persistence-aws.yaml'
                         // sh 'kubectl apply -f complete-demo.yaml'
-                        // sh 'kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission'
+                        sh 'kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission'
                         sh 'kubectl apply -f ingress-sockshop.yaml'
                     }
                 }
