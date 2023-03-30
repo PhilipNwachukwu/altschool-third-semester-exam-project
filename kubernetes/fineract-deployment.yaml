@@ -1,19 +1,35 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fineract
+  namespace: fineract
 spec:
   selector:
     matchLabels:
-      app: fineract
+      name: fineract
   replicas: 1
   template:
     metadata:
       labels:
-        app: fineract
+        name: fineract
     spec:
       containers:
-      - name: fineract
-        image: apache/fineract-cn-portfolio:latest
-        ports:
-        - containerPort: 80
+        - name: fineract
+          image: apache/fineract-cn-portfolio:latest
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8078
+          env:
+            - name: SESSION_REDIS
+              value: "true"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10002
+            capabilities:
+              drop:
+                - all
+            readOnlyRootFilesystem: true
